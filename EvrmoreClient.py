@@ -10,7 +10,7 @@ class EvrmoreClient:
     def __init__(self):
         host = "127.0.0.1:8819"
         self.url = f"http://{host}/"
-        self.auth = ("user", "shie9jurballs")
+        self.auth = ("user", "djsaoipne3")
         
         self.logger = setupLogging('EvrmoreClient')
         self.logger.setLevel(logging.INFO)

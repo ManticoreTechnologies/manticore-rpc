@@ -3,20 +3,13 @@
 # Manticore Crypto Faucet
 #       startup.py 
 
-# Import utilities
-from utils import create_logger, welcome_message, config
-
-# Create a logger
-logger = create_logger()
 
 # Import flask
 from flask import Flask
 
-# Create flask application
-app = Flask("Manticore Crypto Faucet")
 
-# Print the welcome message
-print(welcome_message)
+# Create flask application
+app = Flask("Manticore RPC Relay")
 
 
 # CORS policy for local development
@@ -48,4 +41,3 @@ talisman = Talisman(
 
 
 import routes
-

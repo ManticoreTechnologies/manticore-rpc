@@ -1,7 +1,7 @@
 from startup import app
 from flask import render_template, request, jsonify
-from EvrmoreClient import EvrmoreClient
 import re
+import rpc
 
 DISABLED_METHODS = [
     'setban',
@@ -36,21 +36,23 @@ DEFAULT_PARAMS = {
     '':{}
 }
 
+@app.route('/<address>/balance', methods=['GET'])
+def evrmore_balance(address):
+    return jsonify(rpc.send("getaddressbalance", [{'addresses':[address]}]))
 
-evr = EvrmoreClient()
+@app.route('/evrmore/<command>', methods=['GET', 'POST'])
+def evrmore_command(command):
 
-@app.route('/evrmore/rpc/<command>', methods=['POST'])
-def evrmore_rpc_command(command):
     if command in DISABLED_METHODS:
         return jsonify({'error': 'This method is disabled.'}), 403
 
     params = try_get_json()
-    print(params)
-    result = evr.send_command(command, params)
+    if params is not list:
+        print("Params are not a list")
+
+    result = rpc.send(command, params)
     return jsonify(result)
     
-    return 'None'
-
 def try_get_json():
     try:
         params = request.json if request.json is not None else []
@@ -60,7 +62,7 @@ def try_get_json():
 
 def list_commands():
     commands_pattern = re.compile(r'(?m)^[a-z][a-z]*', re.M)
-    help_text = evr.send_command("help")
+    help_text = rpc.send("help")
     return re.findall(commands_pattern, help_text)
 
 def parse_name(help_text):
