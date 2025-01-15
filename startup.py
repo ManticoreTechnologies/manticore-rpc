@@ -38,6 +38,4 @@ talisman = Talisman(
     strict_transport_security_preload=True
 )
 
-
-
 import routes

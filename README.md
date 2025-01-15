@@ -1,15 +1,14 @@
+# Manticore RPC Service
 
-# Manticore Crypto Faucet
-
-Welcome to the Manticore Crypto Faucet! This application is designed to provide users with a simple and efficient way to receive cryptocurrency, specifically for the Evrmore blockchain. This README will guide you through the prerequisites and setup process to get the faucet up and running.
+Welcome to the Manticore RPC Service! This service is designed to facilitate communication with the Evrmore blockchain through a set of remote procedure calls (RPC). This README will guide you through the prerequisites, setup, configuration, and usage of the service.
 
 ## Prerequisites
 
-Before you can run the Manticore Crypto Faucet, ensure that the following system and Python packages are installed on your system.
+Before you can run the Manticore RPC Service, ensure that the following system and Python packages are installed on your system.
 
 ### System Packages
 
-- **redis-server**: Redis is used as a persistent storage backend for rate limiting.
+- **redis-server**: Used as a persistent storage backend for rate limiting.
 - **python3**: The application is written in Python, so Python 3 is required.
 
 ### Python Packages
@@ -21,7 +20,7 @@ Before you can run the Manticore Crypto Faucet, ensure that the following system
 
 ## Getting Started
 
-Follow these steps to set up and run the Manticore Crypto Faucet.
+Follow these steps to set up and run the Manticore RPC Service.
 
 ### 1. Install Redis Server
 
@@ -39,31 +38,11 @@ Next, install the necessary Python packages using pip:
 pip3 install redis flask flask_limiter colorlog
 ```
 
-### 3. Run the Application
+### 3. Configure the Service
 
-Once you have installed the prerequisites, you can run the Flask application using Gunicorn or directly with Python:
+The service uses a `settings.conf` file to manage configuration settings. Below is a breakdown of the configuration options:
 
-#### Running with Gunicorn (Recommended for Production)
-
-```bash
-gunicorn -w 1 -b 0.0.0.0:8080 startup:app
-```
-
-#### Running with Python (Development Mode)
-
-```bash
-python3 startup.py
-```
-
-### 4. Access the Application
-
-Open your web browser and navigate to `http://localhost:8080` (or the IP/port specified) to start using the Manticore Crypto Faucet.
-
-## Configuration
-
-The application uses a `settings.conf` file to manage configuration settings, such as the logging level, rate limits, and node connection details. Below is a breakdown of the configuration options:
-
-### General Settings
+#### General Settings
 
 ```ini
 [General]
@@ -78,11 +57,11 @@ rate_limit = 1
 - **`log_level`**: The logging level for the application. Can be set to `DEBUG`, `INFO`, `WARNING`, `ERROR`, or `CRITICAL`.
 - **`port`**: The desired port for the service to listen on.
 - **`timeout`**: The time (in seconds) to wait for a response from the blockchain node.
-- **`address`**: The address from which the faucet will distribute cryptocurrency.
+- **`address`**: The address from which the service will interact with the blockchain.
 - **`amount`**: The amount of cryptocurrency (in Evrmore) to be sent per request.
-- **`rate_limit`**: The maximum number of requests allowed per day from a single user. This helps prevent abuse by limiting how often the faucet can be accessed.
+- **`rate_limit`**: The maximum number of requests allowed per day from a single user.
 
-### Permission Settings
+#### Permission Settings
 
 ```ini
 [Permission]
@@ -93,7 +72,7 @@ group = user
 - **`user`**: The system user under which the application will run.
 - **`group`**: The system group under which the application will run.
 
-### Node Settings
+#### Node Settings
 
 ```ini
 [Node]
@@ -108,18 +87,38 @@ password = password
 - **`user`**: The username for authenticating with the node.
 - **`password`**: The password for authenticating with the node.
 
-### Logging Settings
+#### Logging Settings
 
 ```ini
 [Logging]
-log_file = /var/log/manticore_faucet.log
+log_file = /var/log/manticore_rpc.log
 ```
 
 - **`log_file`**: The path to the log file where the application's logs will be written. Ensure that the specified path is writable by the application.
 
+### 4. Run the Application
+
+Once you have configured the service, you can run the Flask application using Gunicorn or directly with Python:
+
+#### Running with Gunicorn (Recommended for Production)
+
+```bash
+gunicorn -w 1 -b 0.0.0.0:8080 startup:app
+```
+
+#### Running with Python (Development Mode)
+
+```bash
+python3 startup.py
+```
+
+### 5. Access the Application
+
+Open your web browser and navigate to `http://localhost:8080` (or the IP/port specified) to start using the Manticore RPC Service.
+
 ## Managing the Service
 
-You can manage the Manticore Crypto Faucet as a systemd service. The service management script allows you to easily install or uninstall the faucet as a service on your system.
+You can manage the Manticore RPC Service as a systemd service. The service management script allows you to easily install or uninstall the service on your system.
 
 ### Install the Service
 
@@ -145,4 +144,4 @@ After installing the service, it will start automatically on system boot and can
 
 ---
 
-Thank you for using the Manticore Crypto Faucet! If you encounter any issues or have any questions, feel free to reach out.
+Thank you for using the Manticore RPC Service! If you encounter any issues or have any questions, feel free to reach out.
